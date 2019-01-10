@@ -13,8 +13,9 @@ pipeline {
       steps {
         dir("project"){
             sh 'ls'
-            // sh 'npm install'
-            // sh 'npm run test'
+            sh 'npm install'
+            sh 'npm run test'
+            // sh 'npm run start:dev'
         }
       }
     }
@@ -25,11 +26,11 @@ pipeline {
         }
         success {
             echo 'OK'
-            sh '#!/bin/sh -e\n' + "curl -X POST https://hooks.slack.com/services/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 -H \'content-type: application/json\' -d \'{\"attachments\":[{\"color\":\"good\",\"fields\":[{\"title\":\"Notes\",\"value\":\"This is much easier than I thought it would be.\",\"short\":false}]}]}\'"
+            sh '#!/bin/sh -e\n' + "curl -X POST https://hooks.slack.com/services/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 -H \'content-type: application/json\' -d \'{\"attachments\":[{\"color\":\"good\",\"fields\":[{\"title\":\"Notes\",\"value\":\"${env.JOB_NAME} - #${env.BUILD_NUMBER} - success  \",\"short\":false}]}]}\'"
         }
         failure {
             echo 'FAIL'
-            sh '#!/bin/sh -e\n' + "curl -X POST --data-urlencode \'{\"attachments\":[{\"color\":\"good\",\"fields\":[{\"title\":\"Notes\",\"value\":\"This is much easier than I thought it would be.\",\"short\":false}]}]}\' https://hooks.slack.com/services/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"
+            sh '#!/bin/sh -e\n' + "curl -X POST https://hooks.slack.com/services/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 -H \'content-type: application/json\' -d \'{\"attachments\":[{\"color\":\"danger\",\"fields\":[{\"title\":\"Notes\",\"value\":\"${env.JOB_NAME} - #${env.BUILD_NUMBER} - Fail  \",\"short\":false}]}]}\'"
         }
     }
 }
