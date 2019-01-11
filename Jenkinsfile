@@ -4,11 +4,6 @@ pipeline {
   tools {nodejs "node"}
  
   stages {
-    stage('Example') {
-      steps {
-        git 'https://github.com/wathunyuY/nest-test-for-jenkins.git'
-      }
-    }
     stage('Install dependencies') {
       steps {
         dir("project"){
